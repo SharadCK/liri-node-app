@@ -2,13 +2,13 @@ var fs = require("fs");
 
 var keys = require("./keys.js");
 
-var twitter = require("twitter");
+var Twitter = require("twitter");
 
 var spotify = require("node-spotify-api");
 
 var request = require("request");
 
-var client = new twitter(keys.twitterKeys);
+
 
 var inquirer = require("inquirer");
 
@@ -34,7 +34,7 @@ inquirer.prompt([{
 
         case "Spotify-this-song":
             
-            spotifySong();
+            spotSong();
             
             break;
 
@@ -51,20 +51,36 @@ inquirer.prompt([{
             break;
     }
 
-//displaying 20 tweets
-    function twentyTweets() {
-        var userName = { screen_name: "microsharad" };
-        var i;
-        client.get("statuses/user_timeline", userName, function(error, tweets, response) {
-            if (!error) {
-                for (i = 0; i < 20; i++) {
-                    console.log(tweets[i].text);
-                }
-            } else { console.log("Error:  " + error); }
-        })
-    }
+//displaying 20 tweets   message-([ { code: 32, message: 'Could not authenticate you.' } ])----don't know the reason
+function twentyTweets() {
+	//var client = new Twitter(keys.twitterKeys);
+	var client = new Twitter({
 
-    function spotifySong() {
+        consumer_key: keys.twitterKeys.consumer_key,
+        consumer_secret: keys.twitterKeys.consumer_secret,
+        access_token_key: keys.twitterKeys.access_token_key,
+        access_token_secret: keys.twitterKeys.access_token_secret
+    });
+
+var params = { screen_name: 'microsharad', count: 20 };
+
+client.get('statuses/user_timeline', params, function(error, tweets, response) {
+		if (error) {
+			console.log(error);
+			return;
+		};
+
+		for (var i = 0; i < 20; i++) {
+			var tweetText = tweets[i].text;
+			var tweetCreate = tweets[i].created_at;
+			console.log(tweetText + ' created on ' + tweetCreate);
+		};
+	});
+};
+
+    
+//gives you the spotify link and information based on you search interest
+    function spotSong() {
         inquirer.prompt([{
             type: "input",
             name: "spotifyName",
@@ -90,7 +106,9 @@ inquirer.prompt([{
         });
     }
 
+//display movie info based on your interest
     function movie() {
+
         inquirer.prompt([{
             type: "input",
             name: "movieName",
@@ -107,7 +125,14 @@ inquirer.prompt([{
                         console.log("Movie Title:  " + body.Title);
                         console.log("Year:  " + body.Year);
                         console.log("IMDB Rating:  " + body.imdbRating);
-                        console.log("Rotten Tomatoes Rating:  " + body.tomatoRating);
+                        //''''
+                        if (movie.Rating){    
+            console.log("Rotten Tomatoes Rating: " + body.tomatoRatings[i]);
+        } else {
+            console.log("Rotten Tomatoes Ratings Unavailable");
+        } 
+                        //'''''
+                        //console.log("Rotten Tomatoes Rating:  " + body.tomatoRating);
                         console.log("Country of Origin:  " + body.Country);
                         console.log("Language:  " + body.Language);
                         console.log("Movie Plot:  " + body.Plot);
@@ -141,3 +166,5 @@ inquirer.prompt([{
         })
     }
 });
+
+//=======================================================================================================
