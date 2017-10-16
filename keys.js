@@ -2,7 +2,7 @@
   consumer_key: '	McWSrwOINXkPsKbRyTJX3Tau2',
   consumer_secret: 'JtDv2VctrBTN0OP3GL7uF2bIDXcERM6iu9bNwoLGf67WZX8WUi',
   access_token_key: '2429305946-3sJoa0fEFjoVmuIxNnttFfWboIzqdiZI6thKMkO',
-  access_token_secret: '	ejNCpFla2UBBFkqSCXPqWUNVLw27jTZKEHgsf2r31qGGK',
+  access_token_secret: 'ejNCpFla2UBBFkqSCXPqWUNVLw27jTZKEHgsf2r31qGGK',
 }
 
 exports.spotifyKeys = {
