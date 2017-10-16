@@ -108,8 +108,7 @@ client.get('statuses/user_timeline', params, function(error, tweets, response) {
 
 //display movie info based on your interest
     function movie() {
-
-        inquirer.prompt([{
+          inquirer.prompt([{
             type: "input",
             name: "movieName",
             message: "Type the movie name."
